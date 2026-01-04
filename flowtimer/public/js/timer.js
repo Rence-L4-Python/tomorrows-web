@@ -165,6 +165,8 @@ function finishTimer(){
   
     sessionfinishPopup();
     startFlowmodoroBreak(breakLength);
+    helpers.sessionNumber++;
+    saveHelpers();
     return;
   }
 
