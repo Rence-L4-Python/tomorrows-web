@@ -6,7 +6,7 @@ export function addWorkTime(elapsed){
 
     const now = new Date();
     const hour = now.getHours();
-    const weekday = now.getDay() - 1;
+    const weekday = (now.getDay() + 6) % 7;
     const dayOfMonth = now.getDate() - 1;
     const month = now.getMonth();
 

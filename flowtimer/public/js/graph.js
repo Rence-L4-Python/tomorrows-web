@@ -22,6 +22,9 @@ export const dailyData = Array.from({ length: 24 }, (_, hour) => {
 const weekdayNames = [
   'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
 ]
+const dayNames = Array.from(
+  {length:daysInMonth}, (_, i) => `Day ${i+1}`
+);
 const monthNames = [
   'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
 ]
@@ -30,10 +33,10 @@ export const weeklyData = weekdayNames.map(day => ({
   time: day,
   worktime: 0,
 }))
-export const monthlyData = Array.from({ length: daysInMonth }, (_, i) => ({
-  time: `Day ${i + 1}`,
+export const monthlyData = dayNames.map(day => ({
+  time: day,
   worktime: 0,
-}));
+}))
 export const yearlyData = monthNames.map(month => ({
   time: month,
   worktime: 0,
