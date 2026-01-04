@@ -156,6 +156,7 @@ function finishTimer(){
       helpers.longestFocusTime = elapsed;
     }
 
+    helpers.sessionNumber++;
     saveHelpers();
   }
 
@@ -165,8 +166,6 @@ function finishTimer(){
   
     sessionfinishPopup();
     startFlowmodoroBreak(breakLength);
-    helpers.sessionNumber++;
-    saveHelpers();
     return;
   }
 
@@ -178,9 +177,8 @@ function finishTimer(){
 
   if (timerSelect.value !== 'timer-countdown'){
     showSessionFinishModal();
-    helpers.sessionNumber++;
-    saveHelpers();
   }
+
   sessionfinishPopup();
 }
 
