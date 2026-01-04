@@ -15,16 +15,13 @@ const port = process.env.PORT || 3000;
 // Middleware
 app.use(bodyParser.json());
 
-// Landing page route
-//app.use('/', express.static(path.join(__dirname, 'public/landing')));
-
 // Code reference from Bart Read, https://stackoverflow.com/questions/16534545/how-to-get-rid-of-html-extension-when-serving-webpages-with-node-js
 app.use(express.static(path.join(__dirname, 'public'), {
 extensions: ['html', 'htm'] 
 }));
 
 app.use(session({
-    secret: 'your_secret_key',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
@@ -92,7 +89,7 @@ app.get('/logout', (req, res, next) => {
 });
 
 // Admin routes
-app.use('/admin', auth, express.static(path.join(__dirname, 'public/admin')));
+app.use('/admin', auth, express.static(path.join(__dirname, 'private/admin')));
 
 // Login route
 app.post('/login', async (req, res) => {
