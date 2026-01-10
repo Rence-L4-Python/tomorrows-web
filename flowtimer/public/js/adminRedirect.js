@@ -3,7 +3,7 @@ window.addEventListener("DOMContentLoaded", ()=>{
 
     if (!adminRedirect) return;
 
-    adminRedirect.addEventListener("click", () =>{
+    adminRedirect.addEventListener("click", () =>{ // for the invisible element in the main page
         window.location.href = "/admin";
     })
 })

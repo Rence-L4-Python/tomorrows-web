@@ -1,33 +1,26 @@
 // account modal hover
 document.addEventListener("DOMContentLoaded", () => {
-  const accountModal = document.getElementById('account-modal');
-  const template = document.getElementById('account-template');
+  const accountModal = document.getElementById("account-modal");
+  if (!accountModal) return;
 
-  if (accountModal && template) {
-    let tooltipClone;
+  const tooltip = accountModal.closest(".sidebar-item.tooltip");
+  const emailSpan = tooltip.querySelector(".email");
+  const signoutbtn = tooltip.querySelector("#signout");
 
-    accountModal.addEventListener('mouseenter', () => {
-      if (!tooltipClone) {
-        tooltipClone = template.content.cloneNode(true);
-        accountModal.appendChild(tooltipClone);
+  accountModal.addEventListener('mouseenter', async () =>{
+      try{
+        const res = await fetch("/api/user");
+        const data = await res.json();
 
-        const signoutbtn = document.getElementById('signout');
-          if (signoutbtn) {
-            signoutbtn.addEventListener('click', () => {
-              window.location.href = "/logout";
-          })
+        if (data.email && emailSpan){
+          emailSpan.textContent = data.email;
         }
+      } catch (err){
+        console.error(err);
       }
-      fetch('/api/user')
-        .then(res => res.json())
-        .then(data => {
-          if (data && data.email){
-            const emailSpan = accountModal.querySelector('span');
-            if (emailSpan){
-              emailSpan.textContent = data.email;
-            }
-          }
-        })
     })
-  }
-})
+
+   signoutbtn.addEventListener("click", () =>{
+      window.location.href = "/logout";
+    })
+  })

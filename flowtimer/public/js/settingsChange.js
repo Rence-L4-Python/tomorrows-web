@@ -13,7 +13,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const pomosesh = document.getElementById('setting-sessions');
     const currentTimerType = document.getElementById('timerselector');
 
-    function UIUpdate(){
+    function UIUpdate(){ // updates the values on the settings screen. is a function so it runs on page load and also after pressing the reset to default settings button
         if (flowmoratio) flowmoratio.value = settings.fmRatio;
         if (countdownlength) countdownlength.value = formatTimeInput(settings.cdTimer);
         if (pomolength) pomolength.value = formatTimeInput(settings.pmLength);
@@ -25,31 +25,31 @@ window.addEventListener('DOMContentLoaded', () => {
 
     UIUpdate();
 
-    if (flowmoratio) flowmoratio.addEventListener('input', e => {
+    if (flowmoratio) flowmoratio.addEventListener('input', e => { // just saves the changed values to localStorage
         settings.fmRatio = Number(e.target.value);
         saveSettings();
     })
 
     if (countdownlength) countdownlength.addEventListener('input', e => {
-        const input = parseTimeInput(e.target.value);
+        const input = parseTimeInput(e.target.value); // parseTimeInput from timeFormat.js converts user input like 1h to 3600 which can be read by JS
         settings.cdTimer = input;
         saveSettings();
     })
 
     if (pomolength) pomolength.addEventListener('input', e => {
-        const input = parseTimeInput(e.target.value);
+        const input = parseTimeInput(e.target.value); // same as before
         settings.pmLength = input;
         saveSettings();
     })
 
     if (pomoshortbreak) pomoshortbreak.addEventListener('input', e => {
-        const input = parseTimeInput(e.target.value);
+        const input = parseTimeInput(e.target.value); // same as before
         settings.pmSB = input;
         saveSettings();
     })
 
     if (pomolongbreak) pomolongbreak.addEventListener('input', e => {
-        const input = parseTimeInput(e.target.value);
+        const input = parseTimeInput(e.target.value); // same as before
         settings.pmLB = input;
         saveSettings();
     })

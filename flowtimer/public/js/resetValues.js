@@ -2,7 +2,7 @@ import { helpers, saveHelpers } from "./helpcounter.js";
 import { saveSettings, settings } from "./settings.js";
 import { dailyData, weeklyData, monthlyData, yearlyData, renderGraph } from "./graph.js";
 
-export function resetMetrics(){
+export function resetMetrics(){ // just resets all the relevant values to 0 and saves them
     helpers.totalTimeWorked = 0;
     helpers.tasksCompleted = 0;
     helpers.longestFocusTime = 0;
@@ -10,7 +10,7 @@ export function resetMetrics(){
     
     saveHelpers();
 
-    for (let i = 0; i < dailyData.length; i++){
+    for (let i = 0; i < dailyData.length; i++){ // has to be looped because they are an array
        dailyData[i].worktime = 0;
     }
     for (let i = 0; i < weeklyData.length; i++){
@@ -23,16 +23,16 @@ export function resetMetrics(){
        yearlyData[i].worktime = 0;
     }
 
-    localStorage.setItem('dailyData', JSON.stringify(dailyData));
+    localStorage.setItem('dailyData', JSON.stringify(dailyData)); // no external file for saving them so saving is just done here
     localStorage.setItem('weeklyData', JSON.stringify(weeklyData))
     localStorage.setItem('monthlyData', JSON.stringify(monthlyData))
     localStorage.setItem('yearlyData', JSON.stringify(yearlyData))
     
-    renderGraph();
+    renderGraph(); // this has to be called to update the graph
 }
 
-export function resetSettings(){
-    settings.fmRatio = 5;
+export function resetSettings(){ // default values for settings. these are in seconds but the parse functions make it readable for users
+    settings.fmRatio = 5; 
     settings.cdTimer = 60;
     settings.pmLength = 1500;
     settings.pmSB = 300;

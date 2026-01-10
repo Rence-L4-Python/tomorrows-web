@@ -49,7 +49,7 @@ function isLoggedIn(req, res, next){
     if (req.isAuthenticated()){
         return next();
     }
-    res.redirect('/login.html');
+    res.redirect('/login');
 }
 
 // Redirect to files in the private folder
@@ -73,7 +73,7 @@ app.get('/auth/google',
 );
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', {failureRedirect: '/login.html'}),
+    passport.authenticate('google', {failureRedirect: '/login'}),
     (req, res) => {
         res.redirect('/flowtimer');
     }
@@ -83,7 +83,7 @@ app.get('/logout', (req, res, next) => {
     req.logout(function(err){
         if (err) { return next(err); }
         req.session.destroy(() => {
-            res.redirect('/login.html');
+            res.redirect('/login');
         })
     })
 });

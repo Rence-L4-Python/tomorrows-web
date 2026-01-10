@@ -9,7 +9,7 @@ export function breakfinishPopup(){
     document.body.appendChild(popupClone);
 
     const popup = document.getElementById('break-finish-popup-content');
-    setTimeout(() => {
+    setTimeout(() => { // slide animation
         popup.classList.add('hide');
     }, 3600)
     setTimeout(() => {
@@ -28,7 +28,7 @@ export function sessionfinishPopup(){
     document.body.appendChild(popupClone);
 
     const popup = document.getElementById('session-finish-popup-content');
-    setTimeout(() => {
+    setTimeout(() => { // slide animation
         popup.classList.add('hide');
     }, 3600)
     setTimeout(() => {
@@ -47,7 +47,7 @@ export function timertoast(){
     document.body.appendChild(toastClone);
 
     const toast = document.getElementById('timer-toast');
-    setTimeout(() => {
+    setTimeout(() => { // slide animation
         toast.classList.add('hide');
     }, 3600)
     setTimeout(() => {
@@ -66,7 +66,7 @@ export function starttimerPopup(){
     document.body.appendChild(popupClone);
 
     const popup = document.getElementById('start-timer-popup-content');
-    setTimeout(() => {
+    setTimeout(() => { // slide animation
         popup.classList.add('hide');
     }, 3600)
     setTimeout(() => {
@@ -85,7 +85,7 @@ export function breakfinishWarning(){
     document.body.appendChild(popupClone);
 
     const popup = document.getElementById('break-finish-warning-content');
-    setTimeout(() => {
+    setTimeout(() => { // slide animation
         popup.classList.add('hide');
     }, 3600)
     setTimeout(() => {

@@ -1,9 +1,9 @@
 export const settings = {
     fmRatio: 5, // Flowmodoro Ratio
     cdTimer: 60, // Countdown Timer
-    pmLength: 25, // Pomodoro Length
-    pmSB: 5, // Pomodoro short break
-    pmLB: 15, // Pomodoro Long break
+    pmLength: 1500, // Pomodoro Length
+    pmSB: 300, // Pomodoro short break
+    pmLB: 900, // Pomodoro Long break
     pmSesh: 4, // Pomodoro Sessions until Long Break
     themeIndex: 0, // Background image
     currentTimerType: 'timer-flowmodoro' // Default timer

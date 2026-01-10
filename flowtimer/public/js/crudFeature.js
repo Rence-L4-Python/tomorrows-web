@@ -15,7 +15,7 @@ window.addEventListener('DOMContentLoaded', () =>{
 
     addButton.addEventListener('click', () =>{
         const value = input.value.trim();
-        if (!value) return;
+        if (!value) return; // cross-browser testing, firefox has this guard by default but you end up adding tasks without names on chrome if this guard is not present
 
         const clone = template.content.cloneNode(true);
         const taskItem = clone.querySelector('.task-item');
@@ -23,13 +23,12 @@ window.addEventListener('DOMContentLoaded', () =>{
         const finishButton = taskItem.querySelector('.finishtask');
         const trackButton = taskItem.querySelector('.tracktask');
 
-        taskText.value = value;
+        taskText.value = value; // this is the changeable name of the task
 
-        finishButton.addEventListener('click', () =>{
+        finishButton.addEventListener('click', () =>{ // clicking on the finish button will update the metric stat and remove the item from the list
             helpers.tasksCompleted++;
             saveHelpers();
             taskItem.remove();
-            saveTasks();
         })
 
         trackButton.addEventListener('click', () =>{
@@ -38,12 +37,12 @@ window.addEventListener('DOMContentLoaded', () =>{
             if (trackButton.textContent === "▶"){
                 if (isFinished) return; // stops button from working if timer is finished so it works like in timer.js
 
-                const currentlyActive = document.querySelector('.task-item.active-task');
+                const currentlyActive = document.querySelector('.task-item.active-task'); // makes it so that only one task can be active at a time
                 if (currentlyActive){
                     currentlyActive.classList.remove('active-task');
                 }
 
-                taskItem.classList.add('active-task');
+                taskItem.classList.add('active-task'); // clicking on the play button on a task will make it an active task. this then ties in together with startTimer() in timer.js because the function only runs if a task is active
                 span.textContent = "⏸";
                 startTimer();
                 return;
@@ -55,14 +54,14 @@ window.addEventListener('DOMContentLoaded', () =>{
         }
         })
 
-        taskList.appendChild(clone);
-        input.value = '';
+        taskList.appendChild(clone); // task item is put into the tasks list
+        input.value = ''; // this is to clear user input after they add a task to the list
     })
 
-    input.addEventListener('keypress', (e) =>{
+    input.addEventListener('keypress', (e) =>{ // enter key is recognized as the same as clicking the add task button
         if (e.key === 'Enter') addButton.click();
     })
     
     loadTasks();
-    setInterval(saveTasks, 1000)
+    setInterval(saveTasks, 1000) // autosaves every second
 })

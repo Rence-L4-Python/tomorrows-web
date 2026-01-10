@@ -6,24 +6,23 @@ export function saveTasks(){
     const taskList = document.getElementById('task-list');
     const tasks = [];
     const items = taskList.querySelectorAll('.task-item');
-    items.forEach(item =>{
+    
+    items.forEach(item =>{ // pushes task item details into tasks list
         const text = item.querySelector('.task-text').value;
         const active = item.classList.contains('active-task');
-        const tracked = item.querySelector('.listtimetrack').dataset.seconds || 0;
+        const tracked = item.querySelector('.listtimetrack').dataset.seconds || 0; // this one is from timer.js, not crudFeature.js like everything else here
         tasks.push({text, active, trackedSeconds: Number(tracked)});
     })
 
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-export function loadTasks(){
+export function loadTasks(){ // repopulate tasks in task list, just a duplicate of crudFeature.js
     const taskList = document.getElementById('task-list');
     const template = document.getElementById('task-template');
-
     const saved = JSON.parse(localStorage.getItem('tasks'));
-    if (!saved) return;
 
-    saved.forEach(task =>{
+    saved.forEach(task =>{ // for each task, clone template and populate fields just like in crudFeature.js
         const clone = template.content.cloneNode(true);
         const taskItem = clone.querySelector('.task-item');
         const taskText = taskItem.querySelector('.task-text');
@@ -36,17 +35,17 @@ export function loadTasks(){
         listtimetrack.dataset.seconds = task.trackedSeconds;
         listtimetrack.textContent = formatHMS(task.trackedSeconds);
 
-        if (task.active){
+        if (task.active){ // adds the active-task class to the item if it had one before
             taskItem.classList.add('active-task');
         }
 
-        finishButton.addEventListener('click', () =>{
+        finishButton.addEventListener('click', () =>{ // clicking on the finish button will update the metric stat and remove the item from the list
             helpers.tasksCompleted++;
             saveHelpers();
             taskItem.remove();
         })
 
-        trackButton.addEventListener('click', () =>{
+        trackButton.addEventListener('click', () =>{ // same as in crudFeature.js
             const span = trackButton.querySelector('span');
 
             if (trackButton.textContent === "▶"){

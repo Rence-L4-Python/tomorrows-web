@@ -8,7 +8,7 @@ import { addWorkTime } from "./graphUpdate.js";
 let timerInterval = null;
 let isRunning = false;
 let isWorkSession = true;
-export let isFinished = false;
+export let isFinished = false; // exported to use in crudFeature.js
 let remainingTime;
 let totalTime;
 let circle = null;
@@ -24,33 +24,33 @@ let taskTracklastTime = null;
 let taskTracked = null;
 
 // start timer
-export function startTimer(){
-  const activeTask = document.querySelector('.task-item.active-task');
-  if (!activeTask){
+export function startTimer(){ // exported to use in crudFeature.js
+  const activeTask = document.querySelector('.task-item.active-task'); // this gets added in crudFeature.js when you click the task item's start button
+  if (!activeTask){ // basically tells the user to click play on a task item first or the rest of the functions wont happen
     starttimerPopup();
     return;
   }
-  if (isFinished){ // stops user from repeating clicks. they have to click the restart button for the buttons to work again
+  if (isFinished){ // stops user from repeating clicks. they have to click the restart button for the buttons to work again. mostly relevant when timer remaining time hits 0
     timertoast();
     return;
   }
-  if (isRunning){
+  if (isRunning){ // since isRunning is false, pauseTimer() does not apply
     pauseTimer();
     return;
   }
-  if (isWorkSession){
+  if (isWorkSession){ // the HMS time tracker in the task list only works if it is a work session and not a break
     trackTaskTime();
   }
 
-  isRunning = true;
+  isRunning = true; // apply isRunning to true so we can apply pauseTimer() the next time
   playButton.querySelector('img').src = 'media/pause-button.svg';
-
+  
   startTime = Date.now();
   lastTime = remainingTime;
   lastTimeWorked = helpers.totalTimeWorked;
 
-  timerInterval = setInterval(function(){
-    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  timerInterval = setInterval(function(){ // need an interval so the UI keeps updating
+    const elapsed = Math.floor((Date.now() - startTime) / 1000); // using date.now() because just relying totalTime - remainingTime introduces some delays when too many things are happening at once
 
     if (isFlowmodoro()){ // compared to the other timers, flowmodoro counts up instead of down
       remainingTime = lastTime + elapsed;
@@ -59,44 +59,39 @@ export function startTimer(){
       return;
     }
 
-    remainingTime = lastTime - elapsed;
+    remainingTime = lastTime - elapsed; // applies for every other timer type, just counts down
 
-    circle.set(1 - remainingTime / totalTime);
+    circle.set(1 - remainingTime / totalTime); // when remainingTime/totalTime reaches 0, the circle is completed
     circle.setText(formatTime(remainingTime));
 
-    if (remainingTime <= 0){
-      remainingTime = 0;
-      clearInterval(timerInterval);
+    if (remainingTime <= 0){ // follows same logic as finishTimer()
+      clearInterval(timerInterval); // stops timer from counting down
       isRunning = false;
-      isFinished = true;
+      isFinished = true; // has to be set to true or users can keep on clicking start or finish buttons when timer reaches 0
       playButton.querySelector('img').src = 'media/play-button.svg';
       
       playAudio();
 
-      if (!isWorkSession){
+      if (isWorkSession){ // if a timer finishes and it's a work session, the totalTimeWorked and longestFocusTime gets updated on the metrics
+        helpers.totalTimeWorked = lastTimeWorked + elapsed;
+
+        addWorkTime(elapsed);
+
+        if (elapsed > helpers.longestFocusTime){ // overwrites the previous longest focus time if your current focus time is greater than your previous best
+          helpers.longestFocusTime = elapsed;
+        }
+
+        saveHelpers();
+      } else{ // if you are on a break and your break length reaches 0, a popup shows up and you start a work session. it does not automatically start the timer, but just handles changing your status from a break to work
         breakfinishPopup();
         startWorkSession();
         return;
       }
 
-      if (isWorkSession){
-        helpers.totalTimeWorked = lastTimeWorked + elapsed;
-
-        addWorkTime(elapsed);
-
-        if (elapsed > helpers.longestFocusTime){
-          helpers.longestFocusTime = elapsed;
-        }
-
-        saveHelpers();
-      }
-
       sessionfinishPopup();
 
-      if (timerSelect.value !== 'timer-countdown'){ // 
+      if (timerSelect.value !== 'timer-countdown'){ // showSessionFinishModal only applies to Pomodoro timer. it doesn't apply to Flowmodoro timer because remainingTime never reaches 0 as it counts upwards
         showSessionFinishModal();
-        helpers.sessionNumber++;
-        saveHelpers();
       }
 
       return;
@@ -105,51 +100,46 @@ export function startTimer(){
 }
 
 // pause timer
-export function pauseTimer(){
-  clearInterval(timerInterval);
-  isRunning = false;
-  lastTime = remainingTime;
+export function pauseTimer(){ // exported to use in crudFeature.js
+  clearInterval(timerInterval); // stops timer from counting down
+  isRunning = false; // pauses the timer
   playButton.querySelector('img').src = 'media/play-button.svg';
 }
 
 // restart timer
 function restartTimer(){
-  clearInterval(timerInterval);
-  remainingTime = totalTime;
+  clearInterval(timerInterval); // in case user restarts an ongoing timer, this will stop the timer from running
+  remainingTime = totalTime; // restarts time back to what the timer started with
   circle.set(0);
   circle.setText(formatTime(remainingTime));
-  isRunning = false;
-  isFinished = false;
+  isRunning = false; // has to be set to false or user cant press the start button
+  isFinished = false; // has to be set to false or user cant press the start button
   playButton.querySelector('img').src = 'media/play-button.svg';
 }
 
 // finish timer
 function finishTimer(){
-  const activeTask = document.querySelector('.task-item.active-task');
   const elapsed = Math.floor((Date.now() - startTime) / 1000);
-  if (!activeTask){
-    starttimerPopup();
-    return;
-  }
-  if (!isWorkSession){
+  if (!isWorkSession){ // a lot of stuff breaks when you try to use the finish button while on a break, so i just disallowed the finish button from working while on a break :(
     breakfinishWarning();
     return
   }
-  if (isFinished){ // stops user from repeating clicks. they have to click the restart button for the buttons to work again
-    timertoast();
-    return;
-  }
-  if (!startTime){ // check to stop adding an absurd number for total time worked (like 490953+ hrs or the epoch time because of the date object)
+  if (remainingTime === totalTime){ // guard to stop user from repeating clicks, especially when the timer hasn't started yet.
     starttimerPopup();
     return;
   }
+  if (isFinished){ // stops user from repeating clicks. they have to click the restart button for the buttons to work again. this is more relevant when time is 0.
+    timertoast();
+    return;
+  }
 
-  clearInterval(timerInterval);
-  isRunning = false;
+  clearInterval(timerInterval); // stops timer from counting down
+  isRunning = false; // has to be set to false or user cant press the start button
   playButton.querySelector('img').src = 'media/play-button.svg';
 
-  if (isWorkSession){
+  if (isWorkSession){ // adds the elapsed time to metrics when the finish button is clicked
     helpers.totalTimeWorked = lastTimeWorked + elapsed;
+
     addWorkTime(elapsed);
 
     if (elapsed > helpers.longestFocusTime){
@@ -160,22 +150,22 @@ function finishTimer(){
     saveHelpers();
   }
 
-  if (isFlowmodoro()){
-    const fmRatio = settings.fmRatio;
-    const breakLength = Math.floor(remainingTime / fmRatio);
-  
+  if (isFlowmodoro()){ // flowmodoro finish is different because it uses a different break logic. instead of relying on static changes, the break length is dynamically changed according to the work-break ratio
+    const fmRatio = settings.fmRatio; // this is the work-break ratio
+    const breakLength = Math.floor(remainingTime / fmRatio); // break length is your work time divided by your ratio. so if you work for ten minutes and your ratio is 5, your break time is 2 minutes
+
     sessionfinishPopup();
     startFlowmodoroBreak(breakLength);
     return;
   }
 
-  remainingTime = 0;
+  remainingTime = 0; // just some updates for a timer to be considered as finished
   circle.set(1);
   circle.setText(formatTime(remainingTime));
   isFinished = true;
-  playAudio();
+  playAudio(); // ping sound when finished
 
-  if (timerSelect.value !== 'timer-countdown'){
+  if (timerSelect.value !== 'timer-countdown'){ // finish modal shouldnt show up for countdown timers because they are just the same as normal timers
     showSessionFinishModal();
   }
 
@@ -184,12 +174,12 @@ function finishTimer(){
 
 function trackTaskTime(){
   const activeTask = document.querySelector('.task-item.active-task');
-  if (!activeTask && taskTrackInterval !== null) return;
+  if (!activeTask) return;
 
   const listtimetrack = activeTask.querySelector('.listtimetrack');
-  taskTracked = Number(listtimetrack.dataset.seconds) || 0;
+  taskTracked = Number(listtimetrack.dataset.seconds) || 0; // bypasses the need of having to save and load things to localStorage, also needed because the time resets to 0 everytime you resume a timer
 
-  taskTrackstartTime = Date.now();
+  taskTrackstartTime = Date.now(); // same logic as in startTimer(), but we use a different one or else the tracked time gets overwritten. basically if you start a task at 0 seconds, the list's tracked time also resets to 0, but we don't want that because it should just add up
   taskTracklastTime = taskTracked;
 
   taskTrackInterval = setInterval(() =>{
@@ -220,7 +210,7 @@ function showSessionFinishModal(){
   const startBreakButton = overlay.querySelector('#start-break-btn');
   const skipBreakButton = overlay.querySelector('#skip-break-btn');
 
-  modalText.textContent = `Session ${helpers.sessionNumber + 1} is over!`;
+  modalText.textContent = `Session ${helpers.sessionNumber + 1} is over!`; // session number starts with a 0, added by 1 just so it looks appropriate on the modal
 
   startBreakButton.addEventListener('click', () =>{
     overlay.remove();
@@ -233,7 +223,7 @@ function showSessionFinishModal(){
   })
 }
 
-function updateTimerMode(selected){
+function updateTimerMode(selected){ // just updates remainingTime and the circle text's UI with the timer type's length settings
   remainingTime = getTimerDuration(selected);
   totalTime = remainingTime;
 
@@ -246,7 +236,7 @@ function updateTimerMode(selected){
 // initialize progress bar circle
 
 function initializeCircle(){
-  container.innerHTML = '';
+  container.innerHTML = ''; // this is done because we are overriding it with a different circle which is breakCircle, and that contains a different color
 
   circle = new ProgressBar.Circle(container, {
     strokeWidth: 3,
@@ -258,24 +248,24 @@ function initializeCircle(){
     text:{
       value: formatTime(remainingTime),
       className: 'progress-text',
-      style: {
+      style: { // this has to be styled or else the text color will also be cyan.
         color: '#FFFFFF',
-        position: 'absolute',
+        position: 'absolute', // this is because the text starts off at the bottom left corner
         left: '50%',
         top: '50%',
-        padding: 0,
+        padding: 0, // just resetting some stuff to be careful
         margin: 0,
         transform: 'translate(-50%, -50%)',
-        fontSize: '24px',
+        fontSize: '24px', // original text is too small
       }
     }
   })
-  circle.set(0);
+  circle.set(0); // means the circle is not finished. when it reaches 1, it is finished. needs some basic math to get there
 }
 
 // override working circle for the break circle
 
-function breakCircle(){
+function breakCircle(){ // same explanation as initializeCircle
   container.innerHTML = '';
 
   circle = new ProgressBar.Circle(container, {
@@ -303,7 +293,7 @@ function breakCircle(){
   circle.set(0);
 }
 
-function getTimerDuration(selected){
+function getTimerDuration(selected){ // switch case that changes how long remainingTime is based on the type of timer and their length setting
   switch(selected){
     case "timer-flowmodoro":
       return 0;
@@ -317,7 +307,7 @@ function getTimerDuration(selected){
 }
 
 function isFlowmodoro(){
-  return timerSelect.value === 'timer-flowmodoro' && isWorkSession; // only true if timer is set to flowmodoro and not on a break
+  if (isWorkSession && timerSelect.value === 'timer-flowmodoro') return true; // rewrote previous line to follow the same conventions as other code here
 }
 
 function startFlowmodoroBreak(breakLength){ // break length is tied to time worked divided by fmRatio in settings
@@ -341,40 +331,36 @@ function startBreak(){
   const shortBreak = settings.pmSB;
   const longBreak = settings.pmLB;
 
-  if (helpers.sessionNumber > 0 && helpers.sessionNumber % sessionsBeforeLongBreak == 0){
+  if (helpers.sessionNumber > 0 && helpers.sessionNumber % sessionsBeforeLongBreak == 0){ // basically just means that you get a long break if your session number is a multiple of the sessionsBeforeLongBreak setting
     remainingTime = longBreak;
   }
-  else{
+  else{ // if its not a multiple you get a short break
     remainingTime = shortBreak;
   }
 
-  totalTime = remainingTime;
+  totalTime = remainingTime; // timer value is set to your break length
   breakCircle();
   startTimer();
   updateworkStatus();
 }
 
-function startWorkSession(){
+function startWorkSession(){ // relevant after a break
   isWorkSession = true;
-  isFinished = false;
-  isRunning = false;
-  remainingTime = getTimerDuration(timerSelect.value);
+  isFinished = false; // has to be set to false or user cant press the start button
+  remainingTime = getTimerDuration(timerSelect.value); // this has to update or the work session after a break starts at 0
   totalTime = remainingTime;
   initializeCircle();
   updateworkStatus();
 }
 
-function updateworkStatus(){
+function updateworkStatus(){ // just a small check that changes your working status if it's a work session or a break
   const statusText = document.getElementById('status-text');
-  if (!isWorkSession){
+  if (isWorkSession){
+    statusText.textContent = "Working";
+  } else{
     statusText.textContent = "Break";
   }
-  else{
-    statusText.textContent = "Working";
-  }
 }
-
-// attempt at reworking
 
 window.addEventListener('DOMContentLoaded', () => {
   loadSettings(); 
@@ -398,9 +384,7 @@ window.addEventListener('DOMContentLoaded', () => {
   remainingTime = getTimerDuration(timerSelect.value);
   totalTime = remainingTime;
 
-  // 
-
-  timerSelect.addEventListener('change', () =>{
+  timerSelect.addEventListener('change', () =>{ // updates the timer mode based on the selected value in the dropdown list
     const selected = timerSelect.value;
     updateTimerMode(selected);
   })

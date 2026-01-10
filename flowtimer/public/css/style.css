@@ -270,6 +270,7 @@ input{
 .card-feature h2{
     color: white;
     font-size: var(--l);
+    font-family: "Nunito", sans-serif;
 }
 .card-content{
     display: flex;
@@ -323,6 +324,7 @@ input{
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    font-family: "Nunito", sans-serif;
     letter-spacing: 0.5px;
     transform: translateY(90px);
 }
@@ -353,6 +355,7 @@ input{
     background-color : var(--header-color);
     height: 25px;
     font-size: 14px;
+    font-family: "Nunito", sans-serif;
     letter-spacing: 0.5px;
     align-items: center;
     flex-shrink: 0;
@@ -479,6 +482,7 @@ select{
     display: flex;
     text-decoration: none;
     font-weight: bold;
+    font-family: "Nunito", sans-serif;
     justify-content: center;
     align-items: center;
     background-color: #584DEF;
@@ -797,7 +801,7 @@ select{
     align-items: center;
     justify-content: center;
 }
-.account-tooltip{
+#account-tooltip{
     width: 250px;
     height: 100px;
     border-radius: var(--m);
@@ -812,26 +816,28 @@ select{
     padding-right: 50%;
     gap: 4px;
 }
-.account-tooltip hr{
+#account-tooltip hr{
     border: 1px solid #D9D9D9;
     width: 200px;
 }
-.account-tooltip h2{
+#account-tooltip h2{
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
 }
-.account-tooltip span{
+#account-tooltip span{
     font-style: italic;
 }
-.account-tooltip button{
+#account-tooltip button{
     text-align: left;
     background-color: transparent;
+    border: none;
     color: white;
     font-size: 14px;
+    font-family: "Nunito", sans-serif;
     font-weight: bold;
     letter-spacing: 0.5px;
 }
-.account-tooltip button:hover{
+#account-tooltip button:hover{
     cursor: pointer;
 }
 

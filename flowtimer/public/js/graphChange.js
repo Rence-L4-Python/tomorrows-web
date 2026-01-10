@@ -1,4 +1,3 @@
-// test
 import {renderGraph} from './graph.js';
 
 window.addEventListener('DOMContentLoaded', () =>{
@@ -8,7 +7,7 @@ window.addEventListener('DOMContentLoaded', () =>{
         return;
     }
 
-    select.addEventListener('change', (e) => {
+    select.addEventListener('change', (e) => { // selected dropdown option value updates what the graph renders
         const value = e.target.value;
         renderGraph(value);
     })

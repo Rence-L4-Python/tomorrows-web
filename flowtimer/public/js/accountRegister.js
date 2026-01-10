@@ -15,17 +15,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ email, password }) // removed name because we are just working with emails and passwords now
             });
 
             const data = await response.json();
 
-            if (response.ok){
+            if (response.ok){ // if successful, get redirected to the main page
                 alert('Registration successful!');
                 window.location.href = '/flowtimer';    
             }
             else{
-                document.getElementById('errorMessage').textContent = data.error;
+                document.getElementById('errorMessage').textContent = data.error; // whatever went wrong just shows up here
             }
         });
     }

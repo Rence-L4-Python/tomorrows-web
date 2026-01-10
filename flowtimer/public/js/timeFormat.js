@@ -1,6 +1,6 @@
 // formatting text inside timer, MM:SS format
 
-export function formatTime(seconds){
+export function formatTime(seconds){ // used for the timer, especially the center text. since we're not using the default 0-100 for the circular progress bar, we have to do this
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
 
@@ -10,7 +10,7 @@ export function formatTime(seconds){
     return `${mm}:${ss}`;
 }
 
-export function formatHMS(seconds){
+export function formatHMS(seconds){ // parameter getting passed here returns it in an HMS format, meaning if totalTimeWorked is 90, it returns as 0h 1m 30s
   const hrs = Math.floor(seconds / 3600);
   const mins = Math.floor((seconds % 3600) / 60);
   const secs = seconds % 60;
