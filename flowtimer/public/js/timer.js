@@ -80,7 +80,7 @@ export function startTimer(){ // exported to use in crudFeature.js
         if (elapsed > helpers.longestFocusTime){ // overwrites the previous longest focus time if your current focus time is greater than your previous best
           helpers.longestFocusTime = elapsed;
         }
-
+        helpers.sessionNumber++;
         saveHelpers();
       } else{ // if you are on a break and your break length reaches 0, a popup shows up and you start a work session. it does not automatically start the timer, but just handles changing your status from a break to work
         breakfinishPopup();
