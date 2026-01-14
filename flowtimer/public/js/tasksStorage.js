@@ -20,7 +20,7 @@ export function saveTasks(){
 export function loadTasks(){ // repopulate tasks in task list, just a duplicate of crudFeature.js
     const taskList = document.getElementById('task-list');
     const template = document.getElementById('task-template');
-    const saved = JSON.parse(localStorage.getItem('tasks'));
+    const saved = JSON.parse(localStorage.getItem('tasks')) || []; // empty array if no tasks saved or we get an uncaught typeerror
 
     saved.forEach(task =>{ // for each task, clone template and populate fields just like in crudFeature.js
         const clone = template.content.cloneNode(true);
