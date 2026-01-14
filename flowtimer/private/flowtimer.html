@@ -11,16 +11,6 @@
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     </head>
     <body>
-        <nav id="mobile-nav">
-            <div class="flowtimerlogo">FLOWTIMER</div>
-            <a href="/flowtimer">Home</a>
-            <a href="/metrics">Metrics</a>
-            <a href="/settings">Settings</a>
-            <a href="#">Account</a>
-            <a href="javascript:void(0);" class="icon">
-                <i class="fa fa-bars"></i>
-            </a>
-        </nav>
         <aside>
             <div class="sidebar">
                 <div class="sidebar-item lowopac">
@@ -71,7 +61,7 @@
                 </div>
             </div>
         </aside>
-        <main class="align direction-row">
+        <main class="align">
             <div class="card-dropdown mt-10">
                 <select id="timerselector">
                         <option value="timer-flowmodoro">Flowmodoro Timer</option>
@@ -131,6 +121,7 @@
                     <h3>Timer Types:</h3>
                     <hr>
                     <p>1. Flowmodoro tasks count upward. You can technically finish them whenever, but your break time is based on your work-break ratio. That means if your ratio is 5, and you worked for 10 minutes, your break time will be 2 minutes.</p>
+                    <p>2. The Pomodoro timer is the only timer type that has a session modal.</p>
                     <br>
                     <h3>Metrics:</h3>
                     <hr>
@@ -204,4 +195,7 @@
         <script src="https://cdn.jsdelivr.net/npm/progressbar.js/dist/progressbar.min.js"></script>
         <script src="js/main.js" type="module"></script>
     </body>
+    <div id="loadingscreen">
+        <div class="loading"></div>
+    </div>
 </html>

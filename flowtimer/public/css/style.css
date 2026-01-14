@@ -52,7 +52,7 @@ html{
 .hidden{display: none;}
 .transparent{opacity: 0;}
 .transparentbg{background-color: transparent;}
-.lowopac{opacity: 0.25;}
+.lowopac{opacity: 0}
 .darkerscreen{background-color: black; opacity: 0.2; height: 100%; width: 100%; position: fixed; top: 0; left: 0; z-index: 0;}
 .blackfilter{filter: brightness(0);}
 .gradateToBlack{background-image: linear-gradient(to bottom, #10121B, black);}
@@ -109,19 +109,21 @@ nav{
 }
 aside{
     position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
+    top: 5%;
+    width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 2;
 }
 main{
     background-size: cover;
     background-position: center;
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     flex-grow: 1;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 footer{
     height: 104px;
@@ -192,7 +194,7 @@ input{
 .cardalt{
     background-color: #252525;
     height: 700px;
-    width: 1000px;
+    width: 90%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -225,7 +227,7 @@ input{
 .cardalt li{
     color: white;
     list-style: none;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
 }
 .cardalt li span:nth-child(2){
@@ -234,7 +236,10 @@ input{
 .cardalt-content{
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
     gap: 10px;
+    width: 90%;
+    overflow-y: scroll;
 }
 .cardalt-content select{
     margin: auto;
@@ -247,7 +252,7 @@ input{
 }
 .cardalt-div1{
     height: 350px;
-    width: 900px;
+    width: 100%;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 .cardalt-div2{
@@ -261,7 +266,7 @@ input{
     display: flex;
     flex-direction: column;
     width: auto;
-    height: 900px;
+    height: auto;
 }
 .card-feature{
     background-image: linear-gradient(to bottom, #584DEF, #F5CDCD);
@@ -291,7 +296,7 @@ input{
     display: flex;
     flex-direction: column;
     width: auto;
-    height: 1000px;
+    height: 600px;
     margin: auto;
     overflow-y: auto;
     z-index: 1;
@@ -299,8 +304,9 @@ input{
 .card-dropdown{
     display: flex;
     flex-direction: column;
+    align-items: center;
     width: 310px;
-    height: 285px;
+    height: auto;
     gap: 10px;
     border-radius: 6px;
     z-index: 1;
@@ -433,7 +439,7 @@ select{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 310px;
+    width: 250px;
     height: 25px;
     font-size: 14px;
     color: white;
@@ -612,6 +618,9 @@ select{
 }
 .settings-timer{
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     gap: 10px;
     margin-top: 10px;
 }
@@ -627,7 +636,7 @@ select{
     border: 1px solid white;
 }
 .settings-timercardheader{
-    width: 310px;
+    width: 270px;
     height: 25px;
     display: flex;
     justify-content: center;
@@ -638,7 +647,7 @@ select{
     border-top-right-radius: 10px;
 }
 .settings-timercardbody{
-    width: 310px;
+    width: 270px;
     height: 125px;
     display: flex;
     flex-direction: column;
@@ -711,7 +720,51 @@ select{
     flex-direction: column;
 }
 .sidebar{
-    display: none;
+    display: flex;
+    flex-direction: row;
+    gap: var(--m);
+    align-items: center;
+    width: auto;
+    justify-content: space-between;
+    background-color: transparent;
+}
+.sidebar-middle{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: var(--m);
+}
+.sidebar-middle hr{
+    height: 40px;
+}
+.sidebar a{
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.sidebar a::before{
+    content:"";
+    position: absolute;
+    inset: -4px;
+    z-index: 0;
+    background-color: transparent;
+    border-radius: 10px;
+}
+.sidebar a:hover::before{
+    background-color: var(--sidebar-hover-bg);
+}
+.sidebar a img{
+    position: relative;
+    z-index: 1;
+}
+.sidebar-link svg{
+    width: 40px;
+    height: 40px;
+    z-index: 1;
+    position: relative;
+    fill: var(--sidebar-icon-color);
 }
 .login-container{
     height: 400px;
@@ -776,7 +829,7 @@ select{
     position: relative;
     display: inline-block;
 }
-.tooltiptext {
+.tooltiptext{
     visibility: hidden;
     width: 80px;
     background-color: black;
@@ -788,11 +841,13 @@ select{
     padding: 5px 0;
     position: absolute;
     z-index: 1;
-    bottom: 12px;
-    left: 140%;
-    transform: translateX(-20px);
+    top: 140%;
+    transform: translateY(-20px);
     transition: 1s ease, transform 0.3s ease, visibility 0.1s;
     pointer-events: none;
+}
+.tooltiptext hr{
+    height: 1px !important;
 }
 .overlay-tooltip{
     visibility: hidden;
@@ -896,7 +951,7 @@ select{
 
 .guidearea{
     position: absolute;
-    width: 380px;
+    width: 90%;
     height: 600px;
     top: 50%;
     left: 50%;
@@ -941,8 +996,8 @@ select{
     color: rgba(0, 0, 0, 1);
 }
 #acquisitions{
-    height: 100% ;
-    width: 100% ;
+    height: 100%;
+    width: 100%;
     margin: auto;
 }
 #timerselector{
@@ -961,7 +1016,7 @@ select{
 #guide-popup{
     position: absolute;
     height: 700px;
-    width: 500px;
+    width: 90%;
     background-color: #252525;
     border: 2px solid white;
     border-radius: var(--m);
@@ -971,7 +1026,7 @@ select{
 
 #current-status{
     position: fixed;
-    bottom: 17%;
+    bottom: 12%;
     color: white;
     border: 1px solid white;
     background-color: #252525;
@@ -1059,22 +1114,51 @@ select{
   transition: box-shadow 0.2s ease;
 }
 
-.google-btn:hover {
+.google-btn:hover{
   box-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
-.google-icon-wrapper {
+.google-icon-wrapper{
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 8px;
 }
 
-.google-icon {
+.google-icon{
   width: 18px;
   height: 18px;
 }
 
+#loadingscreen{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #252525;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+  transition: opacity 0.25s ease;
+}
+
+.loading{
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.fade-out{
+    opacity: 0;
+    pointer-events: none;
+}
+
+#cd2{width: auto !important;}
 
 @keyframes slideIn{
     0%{
@@ -1098,6 +1182,12 @@ select{
     }
 }
 
+@keyframes spin{
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 @media only screen and (min-width: 768px){
     .homepage-demo{
         width: 750px;
@@ -1107,9 +1197,41 @@ select{
     .basicwrapper:nth-child(2){
         margin-top: 400px;
     }
+    #guide-popup{
+        width: 500px;
+    }
+    .settings-timer{
+        flex-direction: row;
+    }
+    .cardalt li{
+        font-size: 24px;
+    }
+    .tooltiptext{
+        top: 4px;
+        left: 140%;
+        transform: translateX(-20px);
+    }
+    .settings-timercardheader, .settings-timercardbody{
+        width: 310px;
+    }
 }
 
 @media only screen and (min-width: 1024px){
+    .lowopac{
+        opacity: 0.25;
+    }
+    main{
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+    aside{
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: auto;
+        transform: translateX(0);
+    }
     .homepage-demo{
         width: 1000px;
         height: 750px;
@@ -1133,6 +1255,21 @@ select{
         width: auto;
         height: 900px;
     }
+    .card-content{
+        height: 1000px;
+    }
+    .card-dropdown{
+        height: 285px;
+    }
+    .cardalt{
+        width: 1000px;
+    }
+    .cardalt-content{
+        width: 90%;
+    }
+    select{
+        width: 310px;
+    }
     .sidebar{
         display: flex;
         flex-direction: column;
@@ -1146,37 +1283,11 @@ select{
         background-color: transparent;
     }
     .sidebar-middle{
-        display: flex;
-        flex-direction: column;
-        gap: var(--m);
+        flex-direction: column;;
     }
-    .sidebar a{
-        position: relative;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .sidebar a::before{
-        content:"";
-        position: absolute;
-        inset: -4px;
-        z-index: 0;
-        background-color: transparent;
-        border-radius: 10px;
-    }
-    .sidebar a:hover::before{
-        background-color: var(--sidebar-hover-bg);
-    }
-    .sidebar a img{
-        position: relative;
-        z-index: 1;
-    }
-    .sidebar-link svg{
+    .sidebar-middle hr{
         width: 40px;
-        height: 40px;
-        z-index: 1;
-        position: relative;
-        fill: var(--sidebar-icon-color);
+        height: 1px;
     }
     nav{
         display: none;
@@ -1192,5 +1303,8 @@ select{
     }
     .section-2c{
         flex-direction: row;
+    }
+    #current-status{
+        bottom: 17%;
     }
 }
