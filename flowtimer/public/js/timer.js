@@ -183,7 +183,7 @@ function trackTaskTime(){
   taskTracklastTime = taskTracked;
 
   taskTrackInterval = setInterval(() =>{
-    if (!isRunning){
+    if (!isRunning || !isWorkSession){ // stops tracking time if timer is paused or on a break
       clearInterval(taskTrackInterval);
       taskTrackInterval = null;
       taskTracked = taskTracklastTime + Math.floor((Date.now() - taskTrackstartTime) / 1000);
