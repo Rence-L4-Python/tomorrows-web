@@ -1194,6 +1194,9 @@ select{
         height: 562.5px;
         top: 500px;
     }
+    .basicwrapper:nth-child(1) p{
+        width: 700px;
+    }
     .basicwrapper:nth-child(2){
         margin-top: 400px;
     }
