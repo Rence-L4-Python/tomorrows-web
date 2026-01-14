@@ -1215,11 +1215,6 @@ select{
     .cardalt-content{
         overflow-y: hidden;
     }
-    .tooltiptext{
-        top: 4px;
-        left: 140%;
-        transform: translateX(-20px);
-    }
     .settings-timercardheader, .settings-timercardbody{
         width: 310px;
     }
@@ -1297,6 +1292,11 @@ select{
     .sidebar-middle hr{
         width: 40px;
         height: 1px;
+    }
+    .tooltiptext{
+        top: 4px;
+        left: 140%;
+        transform: translateX(-20px);
     }
     nav{
         display: none;
