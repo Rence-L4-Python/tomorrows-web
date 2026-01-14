@@ -56,6 +56,7 @@ html{
 .darkerscreen{background-color: black; opacity: 0.2; height: 100%; width: 100%; position: fixed; top: 0; left: 0; z-index: 0;}
 .blackfilter{filter: brightness(0);}
 .gradateToBlack{background-image: linear-gradient(to bottom, #10121B, black);}
+.hideoverflow{overflow-y: hidden !important;}
 
 .basicwrapper:nth-child(1){
     transform: translateY(-140px);
@@ -240,6 +241,8 @@ input{
     gap: 10px;
     width: 90%;
     overflow-y: scroll;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.5) rgba(0,0,0,0.1);
 }
 .cardalt-content select{
     margin: auto;
@@ -1208,6 +1211,9 @@ select{
     }
     .cardalt li{
         font-size: 24px;
+    }
+    .cardalt-content{
+        overflow-y: hidden;
     }
     .tooltiptext{
         top: 4px;
