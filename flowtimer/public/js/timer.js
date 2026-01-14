@@ -210,7 +210,7 @@ function showSessionFinishModal(){
   const startBreakButton = overlay.querySelector('#start-break-btn');
   const skipBreakButton = overlay.querySelector('#skip-break-btn');
 
-  modalText.textContent = `Session ${helpers.sessionNumber + 1} is over!`; // session number starts with a 0, added by 1 just so it looks appropriate on the modal
+  modalText.textContent = `Session ${helpers.sessionNumber} is over!`;
 
   startBreakButton.addEventListener('click', () =>{
     overlay.remove();
