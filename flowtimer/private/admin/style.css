@@ -76,7 +76,7 @@ table th{
     align-items: center;
 }
 .admin-container{
-    width: 1000px;
+    width: 500px;
     height: 700px;
     background-color: #252525;
     border: 2px solid white;
@@ -108,7 +108,7 @@ table th{
 }
 .admin-container-content table{
     border: 1px dotted white;
-    width: 650px;
+    width: 450px;
     padding: var(--xxl);
 }
 .styletobutton{
@@ -187,3 +187,22 @@ input{
 
 .styletobutton a:hover{background-color: #4138c1;}
 .styletobutton a:active{background-color: #3a32ad;}
+
+@media screen and (min-width: 768px){
+    .admin-container{
+        width: 750px;
+        height: 700px;
+    }
+    .admin-container-content table{
+        width: 600px;
+    }   
+}
+@media screen and (min-width: 1024px){
+    .admin-container{
+        width: 1000px;
+        height: 700px;
+    }
+    .admin-container-content table{
+        width: 650px;
+    }   
+}
